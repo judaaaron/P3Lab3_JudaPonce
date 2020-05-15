@@ -8,24 +8,45 @@ using std::endl;
 char** crearMatrizRandom(int);
 void imprimirMatrizRandom(int,int, char**);
 void llenarMatrizRandom(int, int, char**&);
+void simulacionRandom(int, int, char**&, int );
 int main(int argc, char** argv) {
 	int opcion;
 	cout<<" Bienvenido al juego de la vida de conway!!"<<endl;
 	cout<<" 1. Jugar con matriz Random: "<<endl;
 	cout<<" 2. Jugar con matriz predefinida: "<<endl;
+	cout<<" 3. Salir"<<endl;
 	cin>>opcion;
 	
 	switch(opcion){
 		case 1: {
-			int fila,columna;
+			int fila,columna, turnos;
 			cout<<" Ingrese tamaño x del tablero: "<<endl;
 			cin>>fila;
 			cout<<" Ingrese tamaño y del tablero: "<<endl;
 			cin>>columna;
+			cout<< " Ingrese cantidad de turnos: "<<endl;
+			cin>>turnos;
+			while(fila<=1){
+				cout<<" El tamaño de las filas debe ser positivo y mayor que 1"<<endl;
+				cout<<" Por favor ingrese un numero nuevo de filas: "<<endl;
+				cin>>fila;
+			}
+			while(columna<=1){
+				cout<<" El tamaño de las columnas debe ser positivo y mayor que 1"<<endl;
+				cout<<" Por favor ingrese un numero nuevo de columnas: "<<endl;
+				cin>>columna;
+			}
+			while(turnos<=1){
+				cout<<" La cantidad de turnos debe ser positivo y mayor que 1"<<endl;
+				cout<<" Por favor ingrese nueva cantidad de turnos: "<<endl;
+				cin>>turnos;
+			}
 			char** matrizRandom = NULL;//instancia
 			matrizRandom = crearMatrizRandom(fila);
 			llenarMatrizRandom(fila,columna,matrizRandom);
-			//imprimirMatrizRandom(fila,columna,matrizRandom);
+			cout<<endl;
+			simulacionRandom(fila,columna,matrizRandom, turnos);
+
 			
 			break;
 		} 
@@ -34,6 +55,13 @@ int main(int argc, char** argv) {
 			
 			break;
 		}
+		case 3: {
+			exit(0);
+			break;
+		}
+		 default:
+           		cout<<"Opcion incorrecta";
+                break;
 	}
 	
 	
@@ -73,21 +101,60 @@ void imprimirMatrizRandom(int fila, int columna, char** matriz){
 }
 
 void llenarMatrizRandom(int fila, int columna, char**& matrix){
+	int randomX,RandomY;
 	if(matrix != NULL){
-	
+		
 		for(int i = 0; i < fila ; i++){
 			for(int j = 0; j < columna; j++){
-				if(i==0 || j==0 || i==fila-1 || j==columna-1){
-						matrix[i][j]='#';
+				if((i==0) || ( j ==columna-1) ||(i==fila-1) || (j ==0)){
+					matrix[i][j]='#';
 				}else{
-					matrix[i][j]='*';
-					
+				randomX = rand() % columna;
+				if(randomX == 1){
+					matrix[i][j] = '*';	
+				}else{
+					matrix[i][j] = ' ';	
 				}
-			
 			}
-			cout << endl;
+			}
 		}
+ 	imprimirMatrizRandom(fila,columna, matrix);
+ 	
+ 	}
+}
+
+void simulacionRandom(int fila, int columna, char**& matrix, int turno){
+
+	
+	int contadorVida=0;
+	for(int i = 0; i < fila; i++){
+		for(int j = 0; j < columna; j++){
+		if(matrix[i][j] == '*'){
+		if(matrix[i-1][j-1]=='*'){contadorVida++;}
+		if(matrix[i-1][j]=='*'){contadorVida++;}
+		if(matrix[i-1][j+1]=='*'){contadorVida++;}
+///medio
+		if(matrix[i][j-1]=='*'){contadorVida++;}
+		if(matrix[i][j+1]=='*'){contadorVida++;}
+///abajo
+		if(matrix[i+1][j-1]=='*'){contadorVida++;}
+		if(matrix[i+1][j]=='*'){contadorVida++;}
+		if(matrix[i+1][j+1]=='*'){contadorVida++;}
+		
+		if(contadorVida<2||contadorVida>3)
+			{matrix[i][j]=' ';}
+		else if(contadorVida==2||contadorVida==3)
+			{matrix[i][j]='*';}	
+
+		}
+	
+	}
+	
 	}
 	imprimirMatrizRandom(fila,columna, matrix);
+
 	
 }
+	
+	
+
