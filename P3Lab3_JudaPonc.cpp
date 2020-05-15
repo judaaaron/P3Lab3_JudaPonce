@@ -8,7 +8,8 @@ using std::endl;
 char** crearMatrizRandom(int);
 void imprimirMatrizRandom(int,int, char**);
 void llenarMatrizRandom(int, int, char**&);
-void simulacionRandom(int, int, char**&, int );
+char** simulacionRandom(int, int, char**&, int );
+void borrarMatriz(int size, char**& matriz);
 int main(int argc, char** argv) {
 	int opcion;
 	cout<<" Bienvenido al juego de la vida de conway!!"<<endl;
@@ -46,6 +47,7 @@ int main(int argc, char** argv) {
 			llenarMatrizRandom(fila,columna,matrizRandom);
 			cout<<endl;
 			simulacionRandom(fila,columna,matrizRandom, turnos);
+			imprimirMatrizRandom(fila,columna,matrizRandom);
 
 			
 			break;
@@ -123,7 +125,7 @@ void llenarMatrizRandom(int fila, int columna, char**& matrix){
  	}
 }
 
-void simulacionRandom(int fila, int columna, char**& matrix, int turno){
+char** simulacionRandom(int fila, int columna, char**& matrix, int turno){
 
 	
 	int contadorVida=0;
@@ -151,9 +153,23 @@ void simulacionRandom(int fila, int columna, char**& matrix, int turno){
 	}
 	
 	}
-	imprimirMatrizRandom(fila,columna, matrix);
-
+	borrarMatriz(fila,matrix);
+	return matrix;
 	
+
+
+}
+
+void borrarMatriz(int size, char**& matriz){
+	if(matriz != NULL){
+	
+		for(int i = 0; i < size; i++){
+			delete[] matriz[i];
+		}
+		
+		delete[]matriz;
+		matriz = NULL;
+	}
 }
 	
 	
