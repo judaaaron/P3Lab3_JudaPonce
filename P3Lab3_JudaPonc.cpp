@@ -17,7 +17,7 @@ int opcion;
 	
 	switch(opcion){
 		case 1: {
-			int fila,columna, turnos;
+			int fila,columna, turnos, option;
 			cout<<" Ingrese tamaño x del tablero: "<<endl;
 			cin>>fila;
 			cout<<" Ingrese tamaño y del tablero: "<<endl;
@@ -45,7 +45,7 @@ int opcion;
 			cout<<endl;
 			simulacionRandom(fila,columna,matrizRandom, turnos);
 			//imprimirMatrizRandom(fila,columna,matrizRandom);
-			menu();
+			option=menu();
 
 			
 			break;
@@ -128,9 +128,8 @@ void llenarMatrizRandom(int fila, int columna, char**& matrix){
 }
 
 void simulacionRandom (int fila, int columna, char**& matrix, int turno){
+	if(matrix!= NULL)
 	int controlDeturnos = 0;
-			
-	
 	char **matrizTemporal = matrix;
 	int contadorVidas = 0;
 	for (int k=0; k< turno-1; k++){
