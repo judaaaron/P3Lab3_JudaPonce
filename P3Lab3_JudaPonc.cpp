@@ -8,15 +8,12 @@ using std::endl;
 char** crearMatrizRandom(int);
 void imprimirMatrizRandom(int,int, char**);
 void llenarMatrizRandom(int, int, char**&);
-char** simulacionRandom(int, int, char**&, int );
+void simulacionRandom(int, int, char**&, int );
 void borrarMatriz(int size, char**& matriz);
+int menu();
 int main(int argc, char** argv) {
-	int opcion;
-	cout<<" Bienvenido al juego de la vida de conway!!"<<endl;
-	cout<<" 1. Jugar con matriz Random: "<<endl;
-	cout<<" 2. Jugar con matriz predefinida: "<<endl;
-	cout<<" 3. Salir"<<endl;
-	cin>>opcion;
+int opcion;
+	opcion=menu();
 	
 	switch(opcion){
 		case 1: {
@@ -47,7 +44,8 @@ int main(int argc, char** argv) {
 			llenarMatrizRandom(fila,columna,matrizRandom);
 			cout<<endl;
 			simulacionRandom(fila,columna,matrizRandom, turnos);
-			imprimirMatrizRandom(fila,columna,matrizRandom);
+			//imprimirMatrizRandom(fila,columna,matrizRandom);
+			menu();
 
 			
 			break;
@@ -98,7 +96,11 @@ void imprimirMatrizRandom(int fila, int columna, char** matriz){
 			}
 			cout << endl;
 		}
+		
 	}
+	
+		cin.get();
+
 	
 }
 
@@ -111,53 +113,75 @@ void llenarMatrizRandom(int fila, int columna, char**& matrix){
 				if((i==0) || ( j ==columna-1) ||(i==fila-1) || (j ==0)){
 					matrix[i][j]='#';
 				}else{
-				randomX = rand() % columna;
-				if(randomX == 1){
-					matrix[i][j] = '*';	
-				}else{
-					matrix[i][j] = ' ';	
+					randomX = rand() % 100;
+					if (randomX > 20){
+						matrix[i][j] = '*'; 
+					} else {
+						matrix[i][j] = '0';
+					}
 				}
 			}
-			}
 		}
- 	imprimirMatrizRandom(fila,columna, matrix);
+ 		imprimirMatrizRandom(fila,columna, matrix);
  	
  	}
 }
 
-char** simulacionRandom(int fila, int columna, char**& matrix, int turno){
-
+void simulacionRandom (int fila, int columna, char**& matrix, int turno){
+	int controlDeturnos = 0;
+			
 	
-	int contadorVida=0;
-	for(int i = 0; i < fila; i++){
-		for(int j = 0; j < columna; j++){
-		if(matrix[i][j] == '*'){
-		if(matrix[i-1][j-1]=='*'){contadorVida++;}
-		if(matrix[i-1][j]=='*'){contadorVida++;}
-		if(matrix[i-1][j+1]=='*'){contadorVida++;}
-///medio
-		if(matrix[i][j-1]=='*'){contadorVida++;}
-		if(matrix[i][j+1]=='*'){contadorVida++;}
-///abajo
-		if(matrix[i+1][j-1]=='*'){contadorVida++;}
-		if(matrix[i+1][j]=='*'){contadorVida++;}
-		if(matrix[i+1][j+1]=='*'){contadorVida++;}
+	char **matrizTemporal = matrix;
+	int contadorVidas = 0;
+	for (int k=0; k< turno-1; k++){
 		
-		if(contadorVida<2||contadorVida>3)
-			{matrix[i][j]=' ';}
-		else if(contadorVida==2||contadorVida==3)
-			{matrix[i][j]='*';}	
-
-		}
-	
+		for (int x = 1; x < fila-1; x++){
+			for (int y = 1; y < columna-1; y++){
+				contadorVidas = 0;
+				
+				if (matrix[x][y+1] == '*'){
+					contadorVidas++;
+				}
+				if (matrix[x][y-1] == '*'){
+					contadorVidas++;
+				}
+				if (matrix[x-1][y] == '*'){
+					contadorVidas++;
+				}
+				if (matrix[x-1][y+1] == '*'){
+					contadorVidas++;
+				}
+				if (matrix[x-1][y-1] == '*'){
+					contadorVidas++;
+				}
+				if (matrix[x+1][y] == '*'){
+					contadorVidas++;
+				}
+				if (matrix[x+1][y+1] == '*'){
+					contadorVidas++;
+				}
+				if (matrix[x+1][y-1] == '*'){
+					contadorVidas++;
+				}
+				if (matrix[x][y] == '*'){
+					if (contadorVidas == 2 || contadorVidas == 3){
+						matrizTemporal[x][y]= '*';
+					} else {
+						matrizTemporal[x][y] = '0';
+					}					
+				} else if (matrix[x][y] == '0') {
+					if (contadorVidas == 3){
+						matrizTemporal[x][y] = '*';
+					}
+				}
+				//cout << contvivas << endl;
+			}
+		}		
+		
+		matrix = matrizTemporal;
+		imprimirMatrizRandom(fila,columna,matrix);
+		cout << endl;
 	}
-	
-	}
-	borrarMatriz(fila,matrix);
-	return matrix;
-	
-
-
 }
 
 void borrarMatriz(int size, char**& matriz){
@@ -170,6 +194,18 @@ void borrarMatriz(int size, char**& matriz){
 		delete[]matriz;
 		matriz = NULL;
 	}
+}
+
+int menu(){
+	int opcion;
+	cout<<" Bienvenido al juego de la vida de conway!!"<<endl;
+	cout<<" 1. Jugar con matriz Random: "<<endl;
+	cout<<" 2. Jugar con matriz predefinida: "<<endl;
+	cout<<" 3. Salir"<<endl;
+	cin>>opcion;
+	
+	return opcion;
+	
 }
 	
 	
