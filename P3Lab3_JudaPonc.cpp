@@ -98,7 +98,7 @@ int opcion;
 		
 			simulacionRandom(filas,columnas,matrix, turnos);
 			
-			
+			borrarMatriz(filas,matrix);
 			break;
 		}
 		case 3: {
@@ -219,7 +219,6 @@ void simulacionRandom (int fila, int columna, char** matrix, int turno){
 						matrizTemporal[x][y] = '*';
 					}
 				}
-				//cout << contvivas << endl;
 			}
 		}		
 		
