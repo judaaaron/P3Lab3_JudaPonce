@@ -86,14 +86,14 @@ int opcion;
 				}
 			}
 			
-			int filaas = 0,columnaaas = 0;
+			int row = 0,column = 0;
 			for (int i = 1; i < filas-1; i++){
 				for (int j = 1; j < columnas-1; j++){
-					matrix[i][j] = matrizChar[filaas][columnaaas];
-					columnaaas++;
+					matrix[i][j] = matrizChar[row][column];
+					column++;
 				}
-				columnaaas = 0;
-				filaas++;
+				column = 0;
+				row++;
 			}
 		
 			simulacionRandom(filas,columnas,matrix, turnos);
